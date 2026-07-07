@@ -354,58 +354,84 @@ function stYear(dateStr) {
 // ── PDF PARSING ───────────────────────────────────────────────────────────────
 async function parsePDF(file) {
   const buf = await file.arrayBuffer();
-  const pdf = await pdfjsLib.getDocument({data: buf}).promise;
+  const pdf = await pdfjsLib.getDocument({data: buf, useWorkerFetch: false, isEvalSupported: false}).promise;
 
-  // Extract all lines from all pages
-  const lines = [];
+  // The RCOG ePortfolio PDF has a consistent column layout:
+  // col1 (x<65):    entry number
+  // col2 (x 65-170): type
+  // col3 (x 170-410): title
+  // col4 (x 410-490): date DD/MM/YYYY
+  // col5 (x>490):   status
+  // We parse by X position — robust against any worker/rendering quirks.
+
+  const entries = [];
+  let allText = ''; // for metadata extraction
+
   for (let p = 1; p <= pdf.numPages; p++) {
     const page = await pdf.getPage(p);
+    const vp = page.getViewport({scale: 1});
     const content = await page.getTextContent();
-    // Group items by Y position to reconstruct lines
-    const byY = {};
-    content.items.forEach(item => {
-      const y = Math.round(item.transform[5]);
-      if (!byY[y]) byY[y] = [];
-      byY[y].push(item.str);
+
+    // Collect items with position
+    const items = content.items.map(item => ({
+      x: item.transform[4],
+      y: item.transform[5],
+      text: item.str.trim()
+    })).filter(i => i.text);
+
+    allText += items.map(i => i.text).join(' ') + ' ';
+
+    // Group by Y row (snap to 3pt grid)
+    const rowMap = {};
+    items.forEach(item => {
+      const yk = Math.round(item.y / 3) * 3;
+      if (!rowMap[yk]) rowMap[yk] = [];
+      rowMap[yk].push(item);
     });
-    // Sort Y descending (top of page first) and join each row
-    Object.keys(byY).sort((a,b)=>b-a).forEach(y => {
-      const line = byY[y].join(' ').trim();
-      if (line) lines.push(line);
+
+    // Process each row sorted top→bottom (descending Y in PDF coords)
+    Object.keys(rowMap).sort((a,b) => b-a).forEach(yk => {
+      const row = rowMap[yk].sort((a,b) => a.x - b.x);
+
+      const col1 = row.filter(i => i.x < 65).map(i => i.text).join(' ').trim();
+      const col2 = row.filter(i => i.x >= 65  && i.x < 170).map(i => i.text).join(' ').trim();
+      const col3 = row.filter(i => i.x >= 170 && i.x < 410).map(i => i.text).join(' ').trim();
+      const col4 = row.filter(i => i.x >= 410 && i.x < 490).map(i => i.text).join('').trim();
+      const col5 = row.filter(i => i.x >= 490).map(i => i.text).join(' ').trim();
+
+      if (!col1 || !/^\d+$/.test(col1)) return;
+      if (!KNOWN_TYPES.has(col2)) return;
+      if (!DATE_RE.test(col4)) return;
+
+      const status = STATUS_VALS.has(col5) ? col5 : '';
+      entries.push({
+        num: parseInt(col1),
+        type: col2,
+        title: col3,
+        date: col4,
+        status
+      });
     });
   }
 
-  // Extract metadata
-  const fullText = lines.join('\n');
-  const nameMatch = fullText.match(/ePortfolio Export\s*\n?\s*([\w\s\-]+?)(?:\s*GMC|\s*College)/i);
-  const gmcMatch  = fullText.match(/GMC\s*(?:Number:?\s*)?(\d{7})/i);
-  const dateMatch = fullText.match(/Date exported:\s*([^\n]+)/i);
+  // Extract metadata from raw text
+  const nameMatch = allText.match(/ePortfolio Export\s+([\w\s\-]+?)\s+GMC/i);
+  const gmcMatch  = allText.match(/GMC\s*Number:?\s*(\d{7})/i);
+  const dateMatch = allText.match(/Date exported:\s*([\d\w\s]+?)(?=Educational|$)/i);
 
-  // Parse entries: pattern is num → known_type → title → DD/MM/YYYY → [status]
-  const entries = [];
-  let i = 0;
-  while (i < lines.length - 3) {
-    const line = lines[i].trim();
-    if (/^\d+$/.test(line) && KNOWN_TYPES.has(lines[i+1]?.trim())) {
-      const typ   = lines[i+1].trim();
-      const title = lines[i+2].trim();
-      const dateLine = lines[i+3]?.trim();
-      if (DATE_RE.test(dateLine)) {
-        const nextLine = lines[i+4]?.trim();
-        const status = STATUS_VALS.has(nextLine) ? nextLine : '';
-        entries.push({ num:parseInt(line), type:typ, title, date:dateLine, status });
-        i += status ? 5 : 4;
-        continue;
-      }
-    }
-    i++;
-  }
+  // Deduplicate by entry number (keep first occurrence)
+  const seen = new Set();
+  const deduped = entries.filter(e => {
+    if (seen.has(e.num)) return false;
+    seen.add(e.num);
+    return true;
+  });
 
   return {
-    name: nameMatch ? nameMatch[1].trim() : 'Trainee',
-    gmc:  gmcMatch  ? gmcMatch[1] : '—',
+    name:     nameMatch ? nameMatch[1].trim() : 'Trainee',
+    gmc:      gmcMatch  ? gmcMatch[1] : '—',
     exported: dateMatch ? dateMatch[1].trim() : '—',
-    entries
+    entries:  deduped
   };
 }
 
