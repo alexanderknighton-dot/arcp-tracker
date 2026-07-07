@@ -5,356 +5,123 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>RCOG ARCP Tracker — Curriculum 2024</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --navy: #0F1B2D;
-    --navy-mid: #1A2E45;
-    --navy-light: #243B55;
-    --teal: #00897B;
-    --teal-light: #00BFA5;
-    --amber: #F59E0B;
-    --red: #EF4444;
-    --green: #10B981;
-    --off-white: #F0F4F8;
-    --muted: #94A3B8;
-    --text: #E2E8F0;
-    --text-dim: #64748B;
-    --card: #162032;
-    --card-border: #1E3048;
+    --navy: #0F1B2D; --navy-mid: #1A2E45; --navy-light: #243B55;
+    --teal: #00897B; --teal-light: #00BFA5;
+    --amber: #F59E0B; --red: #EF4444; --green: #10B981;
+    --off-white: #F0F4F8; --muted: #94A3B8; --text: #E2E8F0;
+    --text-dim: #64748B; --card: #162032; --card-border: #1E3048;
   }
+  body { font-family: 'Inter', sans-serif; background: var(--navy); color: var(--text); min-height: 100vh; }
 
-  body {
-    font-family: 'Inter', sans-serif;
-    background: var(--navy);
-    color: var(--text);
-    min-height: 100vh;
-  }
-
-  /* ── HEADER ── */
   header {
-    padding: 28px 40px 24px;
+    padding: 24px 40px;
     border-bottom: 1px solid var(--card-border);
-    display: flex;
-    align-items: center;
-    gap: 16px;
+    display: flex; align-items: center; gap: 16px;
   }
-  header h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 22px;
-    color: var(--off-white);
-    letter-spacing: -0.3px;
-  }
-  header .subtitle {
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 500;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-  }
-  .rcog-badge {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--teal-light);
-    font-weight: 600;
-    letter-spacing: 0.5px;
-    background: rgba(0,137,123,0.12);
-    padding: 4px 10px;
-    border-radius: 20px;
-    border: 1px solid rgba(0,191,165,0.2);
-  }
+  header h1 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--off-white); }
+  header .sub { font-size: 11px; color: var(--muted); font-weight: 500; letter-spacing: 0.8px; text-transform: uppercase; }
+  .rcog-badge { margin-left: auto; font-size: 11px; color: var(--teal-light); font-weight: 600; background: rgba(0,137,123,0.12); padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0,191,165,0.2); }
 
-  /* ── UPLOAD ── */
-  #upload-screen {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 80px);
-    padding: 40px;
-    gap: 24px;
-  }
-  .upload-box {
-    border: 2px dashed var(--navy-light);
-    border-radius: 16px;
-    padding: 56px 80px;
-    text-align: center;
-    cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
-    max-width: 520px;
-    width: 100%;
-    background: var(--card);
-  }
-  .upload-box:hover, .upload-box.drag-over {
-    border-color: var(--teal);
-    background: rgba(0,137,123,0.06);
-  }
-  .upload-icon {
-    width: 56px; height: 56px;
-    margin: 0 auto 20px;
-    background: rgba(0,137,123,0.15);
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--teal-light);
-  }
+  #upload-screen { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 80px); padding: 40px; gap: 20px; }
+  .upload-box { border: 2px dashed var(--navy-light); border-radius: 16px; padding: 56px 80px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; max-width: 520px; width: 100%; background: var(--card); }
+  .upload-box:hover, .upload-box.drag-over { border-color: var(--teal); background: rgba(0,137,123,0.06); }
+  .upload-icon { width: 56px; height: 56px; margin: 0 auto 20px; background: rgba(0,137,123,0.15); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--teal-light); }
   .upload-box h2 { font-size: 18px; font-weight: 600; color: var(--off-white); margin-bottom: 8px; }
-  .upload-box p  { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
-  .upload-btn {
-    display: inline-block;
-    background: var(--teal);
-    color: white;
-    padding: 10px 24px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    border: none;
-    transition: background 0.15s;
-  }
+  .upload-box p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+  .upload-btn { display: inline-block; background: var(--teal); color: white; padding: 10px 24px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; border: none; transition: background 0.15s; }
   .upload-btn:hover { background: var(--teal-light); }
   #file-input { display: none; }
-
-  .how-to {
-    max-width: 520px;
-    width: 100%;
-    background: rgba(15,27,45,0.6);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 20px 24px;
-  }
-  .how-to h3 { font-size: 12px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
-  .how-to ol  { padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
-  .how-to li  { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .how-to { max-width: 520px; width: 100%; background: rgba(15,27,45,0.6); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px 24px; }
+  .how-to h3 { font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .how-to ol { padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .how-to li { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
   .how-to li strong { color: var(--text); font-weight: 500; }
-  .privacy-note { font-size: 11px; color: var(--text-dim); text-align: center; max-width: 380px; line-height: 1.6; }
-  .privacy-note a { color: var(--teal-light); text-decoration: none; }
+  .privacy-note { font-size: 11px; color: var(--text-dim); text-align: center; max-width: 400px; line-height: 1.7; }
 
-  /* ── LOADING ── */
-  #loading-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 80px);
-    gap: 20px;
-  }
-  .spinner {
-    width: 48px; height: 48px;
-    border: 3px solid var(--navy-light);
-    border-top-color: var(--teal);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
+  #loading-screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 80px); gap: 20px; }
+  .spinner { width: 48px; height: 48px; border: 3px solid var(--navy-light); border-top-color: var(--teal); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   #loading-screen p { color: var(--muted); font-size: 14px; }
 
-  /* ── ERROR ── */
-  #error-screen {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: calc(100vh - 80px);
-    gap: 16px;
-    padding: 40px;
-    text-align: center;
-  }
-  .error-box {
-    background: rgba(239,68,68,0.08);
-    border: 1px solid rgba(239,68,68,0.25);
-    border-radius: 12px;
-    padding: 24px 32px;
-    max-width: 500px;
-  }
+  #error-screen { display: none; flex-direction: column; align-items: center; justify-content: center; min-height: calc(100vh - 80px); gap: 16px; padding: 40px; text-align: center; }
+  .error-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: 12px; padding: 24px 32px; max-width: 500px; }
   .error-box h3 { color: #FCA5A5; margin-bottom: 8px; font-size: 16px; }
-  .error-box p  { color: var(--muted); font-size: 13px; line-height: 1.6; }
-  .retry-btn {
-    background: var(--navy-light);
-    color: var(--text);
-    border: 1px solid var(--card-border);
-    padding: 8px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-  }
-  .retry-btn:hover { border-color: var(--muted); }
+  .error-box p { color: var(--muted); font-size: 13px; line-height: 1.6; }
+  .retry-btn { background: var(--navy-light); color: var(--text); border: 1px solid var(--card-border); padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 500; }
 
-  /* ── DASHBOARD ── */
   #dashboard { display: none; padding: 32px 40px 60px; }
-
-  .trainee-bar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
-    padding-bottom: 24px;
-    border-bottom: 1px solid var(--card-border);
-  }
+  .trainee-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--card-border); flex-wrap: wrap; }
   .trainee-bar h2 { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--off-white); }
   .trainee-bar .meta { font-size: 13px; color: var(--muted); margin-top: 3px; }
-  .new-upload-btn {
-    margin-left: auto;
-    background: transparent;
-    color: var(--muted);
-    border: 1px solid var(--card-border);
-    padding: 7px 16px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: color 0.15s, border-color 0.15s;
-    white-space: nowrap;
-  }
+  .new-upload-btn { margin-left: auto; background: transparent; color: var(--muted); border: 1px solid var(--card-border); padding: 7px 16px; border-radius: 8px; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; }
   .new-upload-btn:hover { color: var(--text); border-color: var(--muted); }
 
-  /* Stage rings */
-  .stages-row {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-bottom: 36px;
-  }
-  .stage-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 14px;
-    padding: 24px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
+  .stages-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+  .stage-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 14px; padding: 24px; display: flex; align-items: center; gap: 20px; }
   .ring-wrap { position: relative; flex-shrink: 0; }
   .ring-wrap svg { transform: rotate(-90deg); }
-  .ring-bg   { fill: none; stroke: var(--navy-light); stroke-width: 5; }
+  .ring-bg { fill: none; stroke: var(--navy-light); stroke-width: 5; }
   .ring-fill { fill: none; stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.9s cubic-bezier(.4,0,.2,1); }
-  .ring-label {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%);
-    text-align: center;
-    font-size: 15px; font-weight: 700; color: var(--off-white);
-  }
-  .ring-label small { display: block; font-size: 9px; font-weight: 500; color: var(--muted); margin-top: -1px; }
-  .stage-info .stage-tag {
-    display: inline-block;
-    font-size: 10px; font-weight: 600;
-    letter-spacing: 0.5px; text-transform: uppercase;
-    padding: 2px 8px; border-radius: 10px; margin-bottom: 6px;
-  }
-  .tag-done    { background: rgba(16,185,129,0.15); color: #34D399; }
-  .tag-current { background: rgba(0,137,123,0.2);   color: var(--teal-light); }
-  .tag-future  { background: rgba(100,116,139,0.15); color: var(--text-dim); }
+  .ring-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); text-align: center; font-size: 15px; font-weight: 700; color: var(--off-white); }
+  .ring-label small { display: block; font-size: 9px; font-weight: 500; color: var(--muted); }
+  .stage-tag { display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; padding: 2px 8px; border-radius: 10px; margin-bottom: 6px; }
+  .tag-done { background: rgba(16,185,129,0.15); color: #34D399; }
+  .tag-current { background: rgba(0,137,123,0.2); color: var(--teal-light); }
+  .tag-future { background: rgba(100,116,139,0.15); color: var(--text-dim); }
   .stage-info h3 { font-size: 14px; font-weight: 600; color: var(--off-white); margin-bottom: 4px; }
-  .stage-info p  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+  .stage-info p { font-size: 12px; color: var(--muted); line-height: 1.5; }
 
-  /* Section label */
-  .section-label {
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 1px; text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 14px; margin-top: 32px;
-  }
-
-  /* OSATS */
-  .osats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 10px;
-  }
-  .osats-group-label {
-    grid-column: 1 / -1;
-    font-size: 11px; font-weight: 600;
-    letter-spacing: 0.8px; text-transform: uppercase;
-    color: var(--text-dim);
-    margin-top: 12px; margin-bottom: 2px;
-  }
-  .osats-card {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 14px 16px;
-    display: flex; align-items: center; gap: 14px;
-    transition: border-color 0.2s;
-  }
+  .section-label { font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); margin-bottom: 14px; margin-top: 32px; }
+  .osats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+  .osats-group-label { grid-column: 1/-1; font-size: 11px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; color: var(--text-dim); margin-top: 12px; margin-bottom: 2px; }
+  .osats-card { background: var(--card); border: 1px solid var(--card-border); border-radius: 10px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; }
   .osats-card.complete { border-color: rgba(16,185,129,0.2); }
   .osats-card.partial  { border-color: rgba(245,158,11,0.25); }
   .osats-card.missing  { border-color: rgba(239,68,68,0.2); }
   .osats-card.future   { opacity: 0.5; }
-  .osats-pip {
-    width: 36px; height: 36px; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 700; flex-shrink: 0;
-  }
-  .pip-complete { background: rgba(16,185,129,0.15);  color: #34D399; }
-  .pip-partial  { background: rgba(245,158,11,0.15);  color: #FCD34D; }
-  .pip-missing  { background: rgba(239,68,68,0.1);    color: #FCA5A5; }
-  .pip-future   { background: rgba(100,116,139,0.1);  color: var(--text-dim); }
+  .osats-pip { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+  .pip-complete { background: rgba(16,185,129,0.15); color: #34D399; }
+  .pip-partial  { background: rgba(245,158,11,0.15); color: #FCD34D; }
+  .pip-missing  { background: rgba(239,68,68,0.1);   color: #FCA5A5; }
+  .pip-future   { background: rgba(100,116,139,0.1); color: var(--text-dim); }
   .osats-info { flex: 1; min-width: 0; }
   .osats-info .name { font-size: 13px; font-weight: 500; color: var(--off-white); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .osats-info .sub  { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .osats-bar-wrap { width: 52px; flex-shrink: 0; }
-  .osats-bar-bg   { height: 4px; background: var(--navy-light); border-radius: 4px; overflow: hidden; }
+  .osats-bar-bg { height: 4px; background: var(--navy-light); border-radius: 4px; overflow: hidden; }
   .osats-bar-fill { height: 100%; border-radius: 4px; }
   .bar-complete { background: var(--green); }
   .bar-partial  { background: var(--amber); }
   .bar-missing  { background: #374151; }
   .osats-bar-label { font-size: 10px; color: var(--muted); margin-top: 3px; text-align: right; }
 
-  /* Annual */
-  .annual-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
+  .annual-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .annual-col { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; }
   .annual-col-header { padding: 12px 16px; background: var(--navy-mid); font-size: 12px; font-weight: 600; color: var(--off-white); border-bottom: 1px solid var(--card-border); }
   .annual-col-sub { font-size: 10px; font-weight: 400; color: var(--muted); margin-top: 1px; }
   .annual-row { display: flex; align-items: center; padding: 10px 16px; border-bottom: 1px solid rgba(30,48,72,0.6); gap: 10px; }
   .annual-row:last-child { border-bottom: none; }
   .annual-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-  .dot-green { background: var(--green); }
-  .dot-amber { background: var(--amber); }
-  .dot-red   { background: var(--red); }
+  .dot-green { background: var(--green); } .dot-amber { background: var(--amber); } .dot-red { background: var(--red); }
   .annual-label { flex: 1; font-size: 12px; color: var(--text); }
   .annual-count { font-size: 11px; color: var(--muted); font-weight: 500; }
 
-  /* CiPs */
-  .cip-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
+  .cip-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
   .cip-col { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; overflow: hidden; }
   .cip-col-header { padding: 12px 16px; background: var(--navy-mid); font-size: 12px; font-weight: 600; color: var(--off-white); border-bottom: 1px solid var(--card-border); }
   .cip-chips { padding: 12px 16px; display: flex; flex-wrap: wrap; gap: 6px; }
-  .cip-chip {
-    width: 30px; height: 30px; border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; font-weight: 600; cursor: default;
-  }
+  .cip-chip { width: 30px; height: 30px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; cursor: default; }
   .chip-ok      { background: rgba(16,185,129,0.15); color: #34D399; }
   .chip-missing { background: rgba(239,68,68,0.1); color: #FCA5A5; border: 1px solid rgba(239,68,68,0.2); }
 
-  /* Summary */
-  .summary-banner {
-    background: var(--card);
-    border: 1px solid var(--card-border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-top: 32px;
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-  }
-  .banner-icon {
-    width: 40px; height: 40px; border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; margin-top: 2px;
-  }
-  .banner-icon.ok  { background: rgba(0,137,123,0.15); }
-  .banner-icon.warn{ background: rgba(245,158,11,0.12); }
+  .summary-banner { background: var(--card); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px 24px; margin-top: 32px; display: flex; gap: 20px; align-items: flex-start; flex-wrap: wrap; }
+  .banner-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+  .banner-icon.ok   { background: rgba(0,137,123,0.15); }
+  .banner-icon.warn { background: rgba(245,158,11,0.12); }
   .summary-body h3 { font-size: 15px; font-weight: 600; color: var(--off-white); margin-bottom: 10px; }
   .gap-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
   .gap-list li { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
@@ -362,46 +129,8 @@
   .gap-list li.critical::before { background: var(--red); }
   .all-clear { font-size: 14px; color: #34D399; font-weight: 500; }
 
-  .footer-note {
-    font-size: 11px; color: var(--text-dim);
-    margin-top: 32px; line-height: 1.8;
-    border-top: 1px solid var(--card-border);
-    padding-top: 20px;
-  }
+  .footer-note { font-size: 11px; color: var(--text-dim); margin-top: 32px; line-height: 1.8; border-top: 1px solid var(--card-border); padding-top: 20px; }
   .footer-note strong { color: var(--muted); }
-
-  /* API key prompt */
-  .api-key-wrap {
-    display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap;
-    justify-content: center;
-  }
-  .api-key-input {
-    flex: 1; min-width: 240px; max-width: 340px;
-    background: var(--navy-mid);
-    border: 1px solid var(--card-border);
-    border-radius: 8px;
-    color: var(--text);
-    font-size: 13px;
-    padding: 8px 14px;
-    font-family: 'Inter', sans-serif;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-  .api-key-input:focus { border-color: var(--teal); }
-  .api-key-input::placeholder { color: var(--text-dim); }
-  .save-key-btn {
-    background: var(--navy-light);
-    border: 1px solid var(--card-border);
-    color: var(--text);
-    border-radius: 8px;
-    padding: 8px 16px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  .save-key-btn:hover { border-color: var(--muted); }
-  .key-hint { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 6px; }
-  .key-hint a { color: var(--teal-light); text-decoration: none; }
 
   @media (max-width: 860px) {
     header { padding: 18px 20px; }
@@ -409,8 +138,6 @@
     #upload-screen { padding: 24px 20px; }
     .upload-box { padding: 40px 24px; }
     .stages-row, .annual-grid, .cip-grid { grid-template-columns: 1fr; }
-    .trainee-bar { flex-wrap: wrap; }
-    .new-upload-btn { width: 100%; text-align: center; }
   }
 </style>
 </head>
@@ -419,24 +146,22 @@
 <header>
   <div>
     <h1>ARCP Tracker</h1>
-    <div class="subtitle" style="margin-top:2px">Curriculum 2024 · O&amp;G</div>
+    <div class="sub" style="margin-top:2px">Curriculum 2024 · O&amp;G</div>
   </div>
   <div class="rcog-badge">RCOG</div>
 </header>
 
-<!-- UPLOAD -->
 <div id="upload-screen">
   <div class="upload-box" id="drop-zone">
     <div class="upload-icon">
       <svg width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
         <polyline points="14 2 14 8 20 8"/>
-        <line x1="12" y1="18" x2="12" y2="12"/>
-        <line x1="9" y1="15" x2="15" y2="15"/>
+        <line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/>
       </svg>
     </div>
     <h2>Upload your ePortfolio export</h2>
-    <p>Export your portfolio from the RCOG ePortfolio as a PDF, then drop it here. Your file is sent to the Claude API for parsing — nothing is stored on any server.</p>
+    <p>Export your portfolio from the RCOG ePortfolio as a PDF and drop it here. Everything is processed locally in your browser — no data leaves your device.</p>
     <button class="upload-btn" onclick="document.getElementById('file-input').click()">Choose PDF</button>
     <input type="file" id="file-input" accept=".pdf">
   </div>
@@ -451,33 +176,22 @@
     </ol>
   </div>
 
-  <div id="api-key-section">
-    <div class="api-key-wrap">
-      <input class="api-key-input" type="password" id="api-key-input" placeholder="Paste your Anthropic API key (sk-ant-…)" autocomplete="off">
-      <button class="save-key-btn" onclick="saveKey()">Save key</button>
-    </div>
-    <p class="key-hint">Your key is stored only in this browser session and never sent anywhere except directly to the <a href="https://console.anthropic.com" target="_blank">Anthropic API</a>.<br>Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</p>
-  </div>
-
-  <p class="privacy-note">Your portfolio PDF is sent only to the Anthropic API (claude.ai infrastructure) for text extraction. No data is stored, logged, or shared.</p>
+  <p class="privacy-note">🔒 Your PDF is read entirely in your browser using PDF.js. Nothing is uploaded to any server.</p>
 </div>
 
-<!-- LOADING -->
 <div id="loading-screen">
   <div class="spinner"></div>
   <p id="loading-msg">Reading your portfolio…</p>
 </div>
 
-<!-- ERROR -->
 <div id="error-screen">
   <div class="error-box">
     <h3>Couldn't parse the portfolio</h3>
-    <p id="error-msg">Something went wrong. Make sure you're uploading a PDF exported from the RCOG ePortfolio system, and that your API key is correct.</p>
+    <p id="error-msg">Make sure you're uploading a PDF exported from the RCOG ePortfolio system.</p>
   </div>
   <button class="retry-btn" onclick="resetToUpload()">Try again</button>
 </div>
 
-<!-- DASHBOARD -->
 <div id="dashboard">
   <div class="trainee-bar">
     <div>
@@ -486,20 +200,14 @@
     </div>
     <button class="new-upload-btn" onclick="resetToUpload()">↑ Upload new export</button>
   </div>
-
   <div class="stages-row" id="stages-row"></div>
-
   <div class="section-label">Summative OSATS</div>
   <div class="osats-grid" id="osats-grid"></div>
-
   <div class="section-label">Annual requirements</div>
   <div class="annual-grid" id="annual-grid"></div>
-
   <div class="section-label">CiP assessments</div>
   <div class="cip-grid" id="cip-grid"></div>
-
   <div class="summary-banner" id="summary-banner"></div>
-
   <div class="footer-note">
     <strong>Notes</strong><br>
     · OSATS require ≥3 summative completions per procedure with ≥1 signed off by a consultant. This tracker counts totals — verify consultant sign-off directly in the ePortfolio.<br>
@@ -510,19 +218,7 @@
 </div>
 
 <script>
-// ── STATE ────────────────────────────────────────────────────────────────────
-let apiKey = '';
-
-function saveKey() {
-  const v = document.getElementById('api-key-input').value.trim();
-  if (!v.startsWith('sk-ant-')) {
-    alert('That doesn\'t look like an Anthropic API key (should start with sk-ant-…)');
-    return;
-  }
-  apiKey = v;
-  document.getElementById('api-key-section').innerHTML =
-    `<p style="font-size:12px;color:var(--green);text-align:center;">✓ API key saved for this session</p>`;
-}
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
 // ── CURRICULUM DATA ──────────────────────────────────────────────────────────
 const OSATS_REQS = [
@@ -545,10 +241,15 @@ const OSATS_REQS = [
   { key:'caesar_intermediate',     label:'Caesarean section (intermediate)',    stageReq:5, kw:['intermediate caesarean','full dilatation caesarean','caesarean section (intermediate)'] },
   { key:'rotational_avd',          label:'Rotational AVD (any method)',         stageReq:5, kw:['rotational'] },
 ];
-
 const MULTI_MATCH = new Set(['hysteroscopy','endometrial_biopsy']);
+const CIP_NAMES = {
+  1:'Clinical skills',2:'Working in health orgs',3:'Leadership',4:'Quality improvement',
+  5:'Human factors',6:'Developing self & others',7:'Innovation & research',8:'Educator',
+  9:'Emergency gynaecology',10:'Emergency obstetrics',11:'Non-emergency gynaecology',
+  12:'Non-emergency obstetrics',13:'Non-discrimination',14:'Health promotion'
+};
 
-// ── DATE → ST YEAR ───────────────────────────────────────────────────────────
+// ── DATE HELPERS ─────────────────────────────────────────────────────────────
 function stYear(dateStr) {
   if (!dateStr) return null;
   const parts = dateStr.split('/');
@@ -563,94 +264,133 @@ function stYear(dateStr) {
   return null;
 }
 
-// ── INFER CURRENT ST FROM ENTRIES ────────────────────────────────────────────
-function inferCurrentST(entries) {
-  let maxYear = 1;
-  entries.forEach(e => {
-    const yr = stYear(e.date);
-    if (yr && yr > maxYear) maxYear = yr;
-  });
-  return maxYear;
-}
-
-// ── PARSE PDF VIA CLAUDE API ─────────────────────────────────────────────────
+// ── PDF PARSING (client-side) ─────────────────────────────────────────────
 async function parsePDF(file) {
-  const b64 = await new Promise((res, rej) => {
-    const r = new FileReader();
-    r.onload = () => res(r.result.split(',')[1]);
-    r.onerror = rej;
-    r.readAsDataURL(file);
-  });
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
 
-  setLoading('Sending to Claude API for analysis…');
-
-  const resp = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': apiKey,
-      'anthropic-version': '2023-06-01',
-      'anthropic-dangerous-direct-browser-calls': 'true'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 4000,
-      messages: [{
-        role: 'user',
-        content: [
-          {
-            type: 'document',
-            source: { type: 'base64', media_type: 'application/pdf', data: b64 }
-          },
-          {
-            type: 'text',
-            text: `This is an RCOG ePortfolio export PDF. Extract structured data and return ONLY valid JSON — no markdown, no backticks, no preamble.
-
-Return this exact structure:
-{
-  "name": "trainee full name",
-  "gmc": "GMC number as string",
-  "exported": "export date string",
-  "entries": [
-    {
-      "num": 1,
-      "type": "exact type string: OSATS (summative) | OSATS (formative) | Mini-CEX | Case-based Disc... | NOTSS | Team Observatio... | Self Observatio... | Reflective log ... | Other evidence | CiP assessment | Supervisor meeting | Personal Develo... | Procedure log e...",
-      "title": "full title text",
-      "date": "DD/MM/YYYY",
-      "status": "Complete or Expired or Draft or empty string"
-    }
-  ]
-}
-
-Include ALL entries from the contents table. For CiP assessments always include the CiP number in the title field (e.g. "Assessment for CiP 9: Emergency gynaecology"). Be precise with dates and status fields.`
-          }
-        ]
-      }]
-    })
-  });
-
-  if (!resp.ok) {
-    const err = await resp.json().catch(() => ({}));
-    throw new Error(err.error?.message || `API error ${resp.status}`);
+  let fullText = '';
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const pageText = content.items.map(item => item.str).join(' ');
+    fullText += pageText + '\n';
   }
 
-  const data = await resp.json();
-  const raw = data.content.find(b => b.type === 'text')?.text || '';
-  const clean = raw.replace(/```json|```/g, '').trim();
-  return JSON.parse(clean);
+  return parsePortfolioText(fullText);
 }
 
-// ── ANALYSE ──────────────────────────────────────────────────────────────────
+function parsePortfolioText(text) {
+  // Extract name and GMC
+  const nameMatch = text.match(/Alexander\s+\w+|Dr\s+[\w\s]+(?=GMC)/i) || text.match(/ePortfolio Export\s+([\w\s]+?)(?=GMC)/);
+  const gmcMatch  = text.match(/GMC\s*(?:Number:?\s*)?(\d{7})/i);
+  const dateMatch = text.match(/Date exported:\s*([\d\s\w]+)/i);
+
+  // Parse entries from the contents table
+  // Pattern: number, type, title, date DD/MM/YYYY, status
+  const entries = [];
+  const lines = text.split('\n');
+
+  const TYPE_PATTERNS = [
+    'OSATS \\(summative\\)', 'OSATS \\(formative\\)', 'Mini-CEX',
+    'Case-based Disc', 'NOTSS', 'Team Observatio', 'Self Observatio',
+    'Reflective log', 'Other evidence', 'CiP assessment',
+    'Supervisor meeting', 'Personal Develo', 'Procedure log'
+  ];
+
+  // Reconstruct lines — pdf.js splits tokens so we need to rejoin
+  // Strategy: scan for date pattern DD/MM/YYYY and work backwards
+  const dateRe = /(\d{2}\/\d{2}\/\d{4})/g;
+  const statusRe = /\b(Complete|Expired|Draft)\b/;
+
+  // Find all content table entries by looking for lines with a date and known type
+  const contentSection = text.substring(
+    text.indexOf('Type') > -1 ? text.indexOf('Type') : 0
+  );
+
+  // Split on date occurrences and parse surrounding context
+  let match;
+  const datePositions = [];
+  const textCopy = contentSection;
+  const re2 = /(\d{2}\/\d{2}\/\d{4})/g;
+  while ((match = re2.exec(textCopy)) !== null) {
+    datePositions.push({ date: match[1], pos: match.index });
+  }
+
+  datePositions.forEach((dp, idx) => {
+    const end = idx + 1 < datePositions.length ? datePositions[idx+1].pos : dp.pos + 200;
+    const chunk = textCopy.substring(Math.max(0, dp.pos - 300), end);
+
+    // Determine type
+    let type = '';
+    if (/OSATS\s*\(summative\)/i.test(chunk))      type = 'OSATS (summative)';
+    else if (/OSATS\s*\(formative\)/i.test(chunk)) type = 'OSATS (formative)';
+    else if (/Mini.CEX/i.test(chunk))              type = 'Mini-CEX';
+    else if (/Case.based/i.test(chunk))            type = 'Case-based Disc...';
+    else if (/\bNOTSS\b/i.test(chunk))             type = 'NOTSS';
+    else if (/Team Observ/i.test(chunk))           type = 'Team Observatio...';
+    else if (/Self Observ/i.test(chunk))           type = 'Self Observatio...';
+    else if (/Reflective\s*log/i.test(chunk))      type = 'Reflective log ...';
+    else if (/CiP\s*assessment/i.test(chunk))      type = 'CiP assessment';
+    else if (/Supervisor\s*meeting/i.test(chunk))  type = 'Supervisor meeting';
+    else if (/Other\s*evidence/i.test(chunk))      type = 'Other evidence';
+    else if (/Personal\s*Develo/i.test(chunk))     type = 'Personal Develo...';
+    else if (/Procedure\s*log/i.test(chunk))       type = 'Procedure log e...';
+    if (!type) return;
+
+    // Status
+    const afterDate = textCopy.substring(dp.pos, dp.pos + 60);
+    const statusMatch = afterDate.match(/\b(Complete|Expired|Draft)\b/);
+    const status = statusMatch ? statusMatch[1] : '';
+
+    // Title: text between type keyword and date, cleaned up
+    const typeIdx = chunk.search(new RegExp(type.replace(/[.*+?^${}()|[\]\\]/g,'\\$&').replace('...','.*'), 'i'));
+    let title = '';
+    if (typeIdx > -1) {
+      const afterType = chunk.substring(typeIdx + type.length).replace(/\.\.\./g,'');
+      // Take text up to the date
+      const titleRaw = afterType.replace(dp.date,'').replace(/Complete|Expired|Draft/g,'').trim();
+      // Clean up extra spaces and special chars from PDF tokenisation
+      title = titleRaw.replace(/\s{2,}/g,' ').replace(/^\W+/,'').trim().substring(0, 120);
+    }
+
+    // CiP number in title for CiP assessments
+    if (type === 'CiP assessment') {
+      const cipMatch = chunk.match(/CiP\s*(\d+)/i);
+      if (cipMatch && !title.includes('CiP')) title = `Assessment for CiP ${cipMatch[1]}`;
+    }
+
+    entries.push({ type, title, date: dp.date, status });
+  });
+
+  // Extract trainee name from top of document
+  const nameRe = /ePortfolio Export\s*([\w\s\-]+?)(?:\s*GMC|\s*College)/i;
+  const nm = text.match(nameRe);
+  const name = nm ? nm[1].trim() : (nameMatch ? nameMatch[0].trim() : 'Unknown');
+
+  return {
+    name,
+    gmc: gmcMatch ? gmcMatch[1] : '—',
+    exported: dateMatch ? dateMatch[1].trim() : '—',
+    entries
+  };
+}
+
+// ── ANALYSIS ─────────────────────────────────────────────────────────────────
 function analyse(portfolio) {
   const entries = portfolio.entries || [];
-  const currentST = inferCurrentST(entries);
+
+  // Infer current ST from latest dated entry
+  let currentST = 1;
+  entries.forEach(e => {
+    const yr = stYear(e.date);
+    if (yr && yr > currentST) currentST = yr;
+  });
 
   // Match summative OSATS
-  const summative = entries.filter(e => e.type === 'OSATS (summative)' && e.status === 'Complete');
   const matched = {};
   OSATS_REQS.forEach(r => matched[r.key] = []);
-
-  summative.forEach(e => {
+  entries.filter(e => e.type === 'OSATS (summative)' && e.status === 'Complete').forEach(e => {
     const tl = (e.title || '').toLowerCase();
     const hits = OSATS_REQS.filter(r => r.kw.some(k => tl.includes(k))).map(r => r.key);
     if (!hits.length) return;
@@ -661,84 +401,73 @@ function analyse(portfolio) {
     }
   });
 
-  // Annual by ST year
+  // Annual by year
   const byYear = {};
   for (let y = 1; y <= Math.max(currentST, 3); y++) {
     byYear[y] = { mini_cex:[], cbd:[], reflective:[], notss:[], tef:[], to:[] };
   }
-
   entries.forEach(e => {
     const yr = stYear(e.date);
     if (!yr || !byYear[yr]) return;
     const t = e.type, s = e.status, title = e.title || '';
-    if (t === 'Mini-CEX' && s === 'Complete')             byYear[yr].mini_cex.push(e);
+    if (t === 'Mini-CEX' && s === 'Complete')               byYear[yr].mini_cex.push(e);
     else if (t === 'Case-based Disc...' && s === 'Complete') byYear[yr].cbd.push(e);
-    else if (t === 'Reflective log ...')                   byYear[yr].reflective.push(e);
-    else if (t === 'NOTSS' && s === 'Complete')            byYear[yr].notss.push(e);
+    else if (t === 'Reflective log ...')                     byYear[yr].reflective.push(e);
+    else if (t === 'NOTSS' && s === 'Complete')              byYear[yr].notss.push(e);
     else if (t === 'Team Observatio...' && s === 'Complete') byYear[yr].to.push(e);
-    else if (title.includes('TEF')) {
+    else if (title.toUpperCase().includes('TEF')) {
       const m = title.match(/20(\d\d)/);
-      if (m) {
-        const ty = parseInt('20' + m[1]) - 2023;
-        if (ty >= 1 && byYear[ty]) { byYear[ty].tef.push(e); return; }
-      }
+      if (m) { const ty = parseInt('20'+m[1])-2023; if (ty>=1 && byYear[ty]) { byYear[ty].tef.push(e); return; } }
       byYear[yr].tef.push(e);
     }
   });
 
-  // CiP assessments
+  // CiPs
   const cipByYear = {};
-  for (let y = 1; y <= Math.max(currentST, 3); y++) cipByYear[y] = new Set();
+  for (let y = 1; y <= Math.max(currentST,3); y++) cipByYear[y] = new Set();
   entries.filter(e => e.type === 'CiP assessment' && e.status === 'Complete').forEach(e => {
     const yr = stYear(e.date);
-    const m = (e.title || '').match(/CiP (\d+)/);
+    const m = (e.title||'').match(/CiP\s*(\d+)/i);
     if (yr && m && cipByYear[yr]) cipByYear[yr].add(parseInt(m[1]));
   });
 
   return { matched, byYear, cipByYear, currentST };
 }
 
-// ── RENDER ───────────────────────────────────────────────────────────────────
+// ── RENDER ────────────────────────────────────────────────────────────────────
 function renderDashboard(portfolio) {
-  setLoading('Building dashboard…');
-  const result = analyse(portfolio);
-  const { matched, byYear, cipByYear, currentST } = result;
-
+  const { matched, byYear, cipByYear, currentST } = analyse(portfolio);
   document.getElementById('trainee-name').textContent = portfolio.name || 'Trainee';
   document.getElementById('trainee-meta').textContent =
-    `GMC ${portfolio.gmc || '—'}  ·  Exported ${portfolio.exported || '—'}  ·  ST${currentST} (current)`;
-
+    `GMC ${portfolio.gmc}  ·  Exported ${portfolio.exported}  ·  ST${currentST} (current)`;
   renderStages(matched, currentST);
   renderOSATS(matched, currentST);
   renderAnnual(byYear, currentST);
   renderCiPs(cipByYear, currentST);
   renderSummary(matched, byYear, cipByYear, currentST);
-
   show('dashboard');
 }
 
 function renderStages(matched, currentST) {
   const defs = [
-    { label:'Stage One', range:'ST1–2', sts:[1,2], tag:'done' },
-    { label:'Stage Two', range:'ST3–5', sts:[3,4,5], tag: currentST >= 3 ? 'current' : 'future' },
-    { label:'Stage Three', range:'ST6–7', sts:[6,7], tag:'future' },
+    { label:'Stage One',   range:'ST1–2', sts:[1,2], tag: currentST >= 3 ? 'done' : 'current' },
+    { label:'Stage Two',   range:'ST3–5', sts:[3,4,5], tag: currentST >= 6 ? 'done' : currentST >= 3 ? 'current' : 'future' },
+    { label:'Stage Three', range:'ST6–7', sts:[6,7], tag: currentST >= 6 ? 'current' : 'future' },
   ];
-
-  const html = defs.map(s => {
+  document.getElementById('stages-row').innerHTML = defs.map(s => {
     const reqs = OSATS_REQS.filter(r => s.sts.includes(r.stageReq));
-    const done  = reqs.filter(r => (matched[r.key]||[]).length >= 3).length;
+    const done = reqs.filter(r => (matched[r.key]||[]).length >= 3).length;
     const total = reqs.length;
-    const pct   = total > 0 ? done / total : 0;
-    const R = 36, circ = 2 * Math.PI * R;
-    const offset = circ * (1 - pct);
-    const color = s.tag === 'done' ? '#10B981' : s.tag === 'current' ? '#00BFA5' : '#374151';
-    const tagText = s.tag === 'done' ? 'Completed' : s.tag === 'current' ? 'In progress' : 'Upcoming';
+    const pct = total > 0 ? done/total : 0;
+    const R = 36, circ = 2*Math.PI*R, offset = circ*(1-pct);
+    const color = s.tag==='done' ? '#10B981' : s.tag==='current' ? '#00BFA5' : '#374151';
+    const tagText = s.tag==='done' ? 'Completed' : s.tag==='current' ? 'In progress' : 'Upcoming';
     return `<div class="stage-card">
       <div class="ring-wrap">
         <svg width="88" height="88" viewBox="0 0 88 88">
           <circle class="ring-bg" cx="44" cy="44" r="${R}"/>
-          <circle class="ring-fill" cx="44" cy="44" r="${R}"
-            stroke="${color}" stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"/>
+          <circle class="ring-fill" cx="44" cy="44" r="${R}" stroke="${color}"
+            stroke-dasharray="${circ.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}"/>
         </svg>
         <div class="ring-label">${done}/${total}<small>OSATS</small></div>
       </div>
@@ -749,241 +478,152 @@ function renderStages(matched, currentST) {
       </div>
     </div>`;
   }).join('');
-
-  document.getElementById('stages-row').innerHTML = html;
 }
 
 function renderOSATS(matched, currentST) {
-  const groups = [
-    { label:'Required by end of ST1', sts:[1] },
-    { label:'Required by end of ST2', sts:[2] },
-    { label:'Required by end of ST3', sts:[3] },
-    { label:'Required by end of ST4', sts:[4] },
-    { label:'Required by end of ST5', sts:[5] },
-  ];
-
+  const groups = [1,2,3,4,5].map(st => ({
+    label: `Required by end of ST${st}`, sts:[st], future: st > currentST
+  }));
   let html = '';
   groups.forEach(g => {
     const reqs = OSATS_REQS.filter(r => g.sts.includes(r.stageReq));
     if (!reqs.length) return;
-    const isFuture = g.sts[0] > currentST;
     html += `<div class="osats-group-label">${g.label}</div>`;
     reqs.forEach(r => {
       const count = (matched[r.key]||[]).length;
-      const pct   = Math.min(count / 3, 1);
-      let cls, pipCls, barCls;
-      if (count >= 3)     { cls='complete'; pipCls='pip-complete'; barCls='bar-complete'; }
-      else if (count > 0) { cls='partial';  pipCls='pip-partial';  barCls='bar-partial'; }
-      else                { cls='missing';  pipCls='pip-missing';  barCls='bar-missing'; }
-      if (isFuture) cls += ' future';
+      const pct = Math.min(count/3,1);
+      let cls = count>=3 ? 'complete' : count>0 ? 'partial' : 'missing';
+      const pipCls = count>=3 ? 'pip-complete' : count>0 ? 'pip-partial' : g.future ? 'pip-future' : 'pip-missing';
+      const barCls = count>=3 ? 'bar-complete' : count>0 ? 'bar-partial' : 'bar-missing';
+      if (g.future) cls += ' future';
       html += `<div class="osats-card ${cls}">
-        <div class="osats-pip ${isFuture?'pip-future':pipCls}">${count}</div>
+        <div class="osats-pip ${pipCls}">${count}</div>
         <div class="osats-info">
           <div class="name">${r.label}</div>
           <div class="sub">ST${r.stageReq} requirement &middot; need 3 summative</div>
         </div>
         <div class="osats-bar-wrap">
-          <div class="osats-bar-bg"><div class="osats-bar-fill ${isFuture?'bar-missing':barCls}" style="width:${Math.round(pct*100)}%"></div></div>
+          <div class="osats-bar-bg"><div class="osats-bar-fill ${barCls}" style="width:${Math.round(pct*100)}%"></div></div>
           <div class="osats-bar-label">${count}/3</div>
         </div>
       </div>`;
     });
   });
-
   document.getElementById('osats-grid').innerHTML = html;
 }
 
 function renderAnnual(byYear, currentST) {
   const checks = [
-    { key:'mini_cex',   label:'Mini-CEX',           req:1 },
-    { key:'cbd',        label:'CBD',                req:1 },
-    { key:'reflective', label:'Reflective practice', req:1 },
-    { key:'notss',      label:'NOTSS',              req:1 },
-    { key:'tef',        label:'TEF (annual)',        req:1 },
-    { key:'to',         label:'TO1 + TO2 (×2 sets)',req:2 },
+    {key:'mini_cex',label:'Mini-CEX',req:1},
+    {key:'cbd',label:'CBD',req:1},
+    {key:'reflective',label:'Reflective practice',req:1},
+    {key:'notss',label:'NOTSS',req:1},
+    {key:'tef',label:'TEF (annual)',req:1},
+    {key:'to',label:'TO1 + TO2 (×2 sets)',req:2},
   ];
-
-  const yearMeta = {
-    1: { label:'ST1', dates:'Oct 2023 – Sep 2024' },
-    2: { label:'ST2', dates:'Oct 2024 – Sep 2025' },
-    3: { label:'ST3', dates:'Oct 2025 – Sep 2026' },
+  const meta = {
+    1:{label:'ST1',dates:'Oct 2023 – Sep 2024'},
+    2:{label:'ST2',dates:'Oct 2024 – Sep 2025'},
+    3:{label:'ST3',dates:'Oct 2025 – Sep 2026'},
   };
-
   let html = '';
-  for (let yr = 1; yr <= Math.min(currentST, 3); yr++) {
-    const m = yearMeta[yr];
-    html += `<div class="annual-col">
-      <div class="annual-col-header">${m.label}<div class="annual-col-sub">${m.dates}</div></div>`;
+  for (let yr = 1; yr <= Math.min(currentST,3); yr++) {
+    const m = meta[yr];
+    html += `<div class="annual-col"><div class="annual-col-header">${m.label}<div class="annual-col-sub">${m.dates}</div></div>`;
     checks.forEach(c => {
       const count = (byYear[yr]?.[c.key]||[]).length;
-      const ok    = count >= c.req;
-      const isWarnOnly = !ok && yr === 1 && c.key === 'tef';
-      const dotCls = ok ? 'dot-green' : isWarnOnly ? 'dot-amber' : 'dot-red';
-      const countStr = `${count}/${c.req}`;
+      const ok = count >= c.req;
+      const warnOnly = !ok && yr===1 && c.key==='tef';
+      const dotCls = ok ? 'dot-green' : warnOnly ? 'dot-amber' : 'dot-red';
       html += `<div class="annual-row">
         <div class="annual-dot ${dotCls}"></div>
         <div class="annual-label">${c.label}</div>
-        <div class="annual-count">${countStr}</div>
+        <div class="annual-count">${count}/${c.req}</div>
       </div>`;
     });
     html += `</div>`;
   }
-
   document.getElementById('annual-grid').innerHTML = html;
 }
 
 function renderCiPs(cipByYear, currentST) {
-  const all = Array.from({length:14}, (_,i) => i+1);
-  const yearMeta = { 1:'ST1', 2:'ST2', 3:'ST3' };
+  const all = Array.from({length:14},(_,i)=>i+1);
+  const meta = {1:'ST1',2:'ST2',3:'ST3'};
   let html = '';
-
-  for (let yr = 1; yr <= Math.min(currentST, 3); yr++) {
-    const covered = cipByYear[yr] || new Set();
-    html += `<div class="cip-col">
-      <div class="cip-col-header">${yearMeta[yr]}</div>
-      <div class="cip-chips">`;
+  for (let yr=1; yr<=Math.min(currentST,3); yr++) {
+    const covered = cipByYear[yr]||new Set();
+    html += `<div class="cip-col"><div class="cip-col-header">${meta[yr]}</div><div class="cip-chips">`;
     all.forEach(n => {
       const ok = covered.has(n);
       html += `<div class="cip-chip ${ok?'chip-ok':'chip-missing'}" title="CiP ${n}: ${CIP_NAMES[n]||''}">${n}</div>`;
     });
     html += `</div></div>`;
   }
-
   document.getElementById('cip-grid').innerHTML = html;
 }
 
-const CIP_NAMES = {
-  1:'Clinical skills & patient safety', 2:'Working in health organisations',
-  3:'Leadership', 4:'Quality improvement', 5:'Human factors',
-  6:'Developing self & others', 7:'Innovation & research',
-  8:'Educator', 9:'Emergency gynaecology', 10:'Emergency obstetrics',
-  11:'Non-emergency gynaecology', 12:'Non-emergency obstetrics',
-  13:'Non-discrimination', 14:'Health promotion'
-};
-
 function renderSummary(matched, byYear, cipByYear, currentST) {
   const gaps = [];
-
-  // OSATS required by current ST
   OSATS_REQS.filter(r => r.stageReq <= currentST).forEach(r => {
     const count = (matched[r.key]||[]).length;
-    if (count < 3) gaps.push({ text:`${r.label} — ${count}/3 OSATS`, critical:true });
+    if (count < 3) gaps.push({text:`${r.label} — ${count}/3 OSATS`, critical:true});
   });
-
-  // Annual gaps for ST years completed
-  for (let yr = 1; yr <= Math.min(currentST, 3); yr++) {
-    const checks = [
-      {key:'mini_cex',label:'Mini-CEX',req:1},
-      {key:'cbd',label:'CBD',req:1},
-      {key:'notss',label:'NOTSS',req:1},
-      {key:'tef',label:'TEF',req:1,warnOnly: yr===1},
-      {key:'to',label:'TO1+TO2 paired sets',req:2},
-    ];
-    checks.forEach(c => {
+  for (let yr=1; yr<=Math.min(currentST,3); yr++) {
+    [{key:'mini_cex',label:'Mini-CEX',req:1},{key:'cbd',label:'CBD',req:1},
+     {key:'notss',label:'NOTSS',req:1},{key:'tef',label:'TEF',req:1,warnOnly:yr===1},
+     {key:'to',label:'TO1+TO2 paired sets',req:2}].forEach(c => {
       const count = (byYear[yr]?.[c.key]||[]).length;
-      if (count < c.req) {
-        gaps.push({ text:`ST${yr}: ${c.label} — ${count}/${c.req}`, critical:!c.warnOnly });
-      }
+      if (count < c.req) gaps.push({text:`ST${yr}: ${c.label} — ${count}/${c.req}`, critical:!c.warnOnly});
     });
   }
-
-  // CiP gaps
   const all14 = new Set(Array.from({length:14},(_,i)=>i+1));
-  for (let y = 1; y <= Math.min(currentST,3); y++) {
-    const missing = [...all14].filter(n => !(cipByYear[y]||new Set()).has(n));
-    if (missing.length) {
-      gaps.push({ text:`ST${y}: CiP ${missing.join(', ')} not evidenced`, critical:false });
-    }
+  for (let y=1; y<=Math.min(currentST,3); y++) {
+    const missing = [...all14].filter(n=>!(cipByYear[y]||new Set()).has(n));
+    if (missing.length) gaps.push({text:`ST${y}: CiP ${missing.join(', ')} not evidenced`,critical:false});
   }
-
   const el = document.getElementById('summary-banner');
   if (!gaps.length) {
-    el.innerHTML = `
-      <div class="banner-icon ok">
-        <svg width="20" height="20" fill="none" stroke="#00BFA5" stroke-width="2.5" viewBox="0 0 24 24">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
-      </div>
-      <div class="summary-body">
-        <h3>No critical gaps identified</h3>
-        <p class="all-clear">All tracked requirements for your current stage are met. Remember to verify consultant sign-off on OSATS directly in the ePortfolio.</p>
-      </div>`;
+    el.innerHTML = `<div class="banner-icon ok"><svg width="20" height="20" fill="none" stroke="#00BFA5" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="summary-body"><h3>No critical gaps identified</h3><p class="all-clear">All tracked requirements for your current stage are met. Verify consultant sign-off on OSATS in the ePortfolio.</p></div>`;
   } else {
-    const items = gaps.map(g =>
-      `<li class="${g.critical?'critical':''}">${g.text}</li>`).join('');
-    el.innerHTML = `
-      <div class="banner-icon warn">
-        <svg width="20" height="20" fill="none" stroke="#F59E0B" stroke-width="2" viewBox="0 0 24 24">
-          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
-          <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-        </svg>
-      </div>
-      <div class="summary-body">
-        <h3>Items to address</h3>
-        <ul class="gap-list">${items}</ul>
-      </div>`;
+    el.innerHTML = `<div class="banner-icon warn"><svg width="20" height="20" fill="none" stroke="#F59E0B" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+      <div class="summary-body"><h3>Items to address</h3><ul class="gap-list">${gaps.map(g=>`<li class="${g.critical?'critical':''}">${g.text}</li>`).join('')}</ul></div>`;
   }
 }
 
-// ── UI FLOW ──────────────────────────────────────────────────────────────────
+// ── UI ────────────────────────────────────────────────────────────────────────
 function show(id) {
-  const screens = ['upload-screen','loading-screen','error-screen','dashboard'];
-  screens.forEach(s => {
+  ['upload-screen','loading-screen','error-screen','dashboard'].forEach(s => {
     const el = document.getElementById(s);
-    if (s === id) {
-      el.style.display = (s === 'loading-screen' || s === 'error-screen') ? 'flex' : 'block';
-    } else {
-      el.style.display = 'none';
-    }
+    el.style.display = s===id ? (s==='loading-screen'||s==='error-screen'?'flex':'block') : 'none';
   });
 }
-
-function setLoading(msg) {
-  document.getElementById('loading-msg').textContent = msg;
-  show('loading-screen');
-}
-
-function showError(msg) {
-  document.getElementById('error-msg').textContent = msg;
-  show('error-screen');
-}
-
-function resetToUpload() {
-  document.getElementById('file-input').value = '';
-  show('upload-screen');
-}
+function setLoading(msg) { document.getElementById('loading-msg').textContent=msg; show('loading-screen'); }
+function showError(msg)  { document.getElementById('error-msg').textContent=msg;   show('error-screen'); }
+function resetToUpload() { document.getElementById('file-input').value=''; show('upload-screen'); }
 
 async function handleFile(file) {
-  if (!file || !file.name.endsWith('.pdf')) {
-    showError('Please upload a PDF file exported from the RCOG ePortfolio system.');
-    return;
+  if (!file || !file.name.toLowerCase().endsWith('.pdf')) {
+    showError('Please upload a PDF exported from the RCOG ePortfolio system.'); return;
   }
-  if (!apiKey) {
-    alert('Please paste your Anthropic API key first (the field below the upload box).');
-    return;
-  }
-  setLoading('Reading your portfolio…');
+  setLoading('Reading PDF…');
   try {
+    setLoading('Parsing portfolio entries…');
     const portfolio = await parsePDF(file);
-    renderDashboard(portfolio);
+    if (!portfolio.entries.length) throw new Error('No entries found — is this an RCOG ePortfolio export?');
+    setLoading('Building dashboard…');
+    setTimeout(() => renderDashboard(portfolio), 100);
   } catch(e) {
     console.error(e);
-    showError(`Failed to parse portfolio: ${e.message}`);
+    showError(e.message || 'Unexpected error. Please try again.');
   }
 }
 
-document.getElementById('file-input').addEventListener('change', e => {
-  if (e.target.files[0]) handleFile(e.target.files[0]);
-});
-
+document.getElementById('file-input').addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 const dz = document.getElementById('drop-zone');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
-dz.addEventListener('drop', e => {
-  e.preventDefault();
-  dz.classList.remove('drag-over');
-  handleFile(e.dataTransfer.files[0]);
-});
+dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('drag-over'); handleFile(e.dataTransfer.files[0]); });
 </script>
 </body>
 </html>
